@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Open source rich text editor based on HTML5 and the progressive-enhancement approach. Uses a sophisticated security concept and aims to generate fully valid HTML5 markup by preventing unmaintainable tag soups and inline styles.">
+    <title>wysihtml5 - A better approach to rich text editing</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/colors.css">
+    <script src="vendor/advanced.js"></script>
+    <script src="vendor/wysihtml5-0.3.0.min.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+      
+      /*
+      MathJax.Hub.Config({
+        showProcessingMessages: false,
+        tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+      });
+      */
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha/katex.min.js"></script>
+</head>
+
+<body>
+    <h2>Edit</h2>
+    <div id="wysihtml5-editor-toolbar">
+        <header>
+            <ul class="commands">
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="plain" class="wysiwyg-color-plain"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c1" class="wysiwyg-color-c1"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c2" class="wysiwyg-color-c2"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c3" class="wysiwyg-color-c3"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c4" class="wysiwyg-color-c4"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c5" class="wysiwyg-color-c5"></li>
+                <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="c6" class="wysiwyg-color-c6"></li>
+                <li data-wysihtml5-action="change_view" title="Show HTML" class="action"></li>
+            </ul>
+        </header>
+    </div>
+    <section>
+        <textarea id="wysihtml5-editor" spellcheck="false" wrap="off" autofocus placeholder="Enter something ...">
+       $$<span class="wysiwyg-color-c1">e</span>^{<span class="wysiwyg-color-c2">i</span> <span class="wysiwyg-color-c3">x</span>} = <span class="wysiwyg-color-c4">\cos(x) </span>+ <span class="wysiwyg-color-c5">i\sin(x)</span>$$
+
+        <br><span class="wysiwyg-color-c1"><br>Growth</span> in a <span class="wysiwyg-color-c2">perpendicular direction</span>
+over <span class="wysiwyg-color-c3">time</span> is circular:
+<br>
+here are the <span class="wysiwyg-color-c4">horizontal</span> and <span class="wysiwyg-color-c5">vertical</span> coordinates
+      </textarea>
+
+        <h2>Rendered</h2>
+
+        <div id="math">
+        </div>
+
+        <pre id="preamble" style="display: none;">
+\definecolor{c1}{RGB}{114,0,172}
+\definecolor{c2}{RGB}{45,177,93}
+\definecolor{c3}{RGB}{251,0,29}
+\definecolor{c4}{RGB}{18,110,213}
+\definecolor{c5}{RGB}{255,160,109}
+\definecolor{c6}{RGB}{219,78,158}
+\newcommand{\plain}{\color{black}}
+      </pre>
+
+        <h2>LaTeX</h2>
+        <pre id="latex">
+      </pre>
+
+        <div id="math-katex">
+        </div>
+    </section>
+    <style>
+    #wysihtml5-editor {
+        font-size: 1.5rem;
+        font-family: Lato, Arial, Helvetica;
+    }
+
+    li.wysiwyg-color-plain {
+        background: black;
+    }
+
+    li.wysiwyg-color-c1 {
+        background: rgb(114, 0, 172);
+    }
+
+    li.wysiwyg-color-c2 {
+        background: rgb(45, 177, 9);
+    }
+
+    li.wysiwyg-color-c3 {
+        background: rgb(251, 0, 29);
+    }
+
+    li.wysiwyg-color-c4 {
+        background: rgb(18, 110, 213);
+    }
+
+    li.wysiwyg-color-c5 {
+        background: rgb(255, 160, 109);
+    }
+
+    li.wysiwyg-color-c6 {
+        background: rgb(219, 78, 158);
+    }
+
+    div#math,
+    #math2 {
+        text-align: center;
+        font-size: 1.5rem;
+        font-family: Lato, Arial, Helvetica;
+    }
+    h2 {
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    pre {
+      overflow: scroll;
+    }
+
+    </style>
+    <script>
+    wysihtml5ParserRules.classes["wysiwyg-color-plain"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c1"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c2"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c3"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c4"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c5"] = 1;
+    wysihtml5ParserRules.classes["wysiwyg-color-c6"] = 1;
+
+    var editor = new wysihtml5.Editor("wysihtml5-editor", {
+        toolbar: "wysihtml5-editor-toolbar",
+        stylesheets: ["http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css", "css/editor.css", "css/colors.css"],
+        parserRules: wysihtml5ParserRules
+    });
+
+    function parseMath(html, preamble) {
+
+        cleaned_html = html.trim().replace(/[&]nbsp;/g, " ");
+        var math = cleaned_html.match(/.*[$]+(.*)[$]+.*/)[0].replace(/[$][$]/g, "");
+        var latex = math.replace(/<span class="wysiwyg-color-(\w+)">/ig, "\\color{$1} ").replace(/[<][/]span[>]/ig, "\\plain ").replace(/<br>/g, " ");
+        var colorized_latex = preamble + latex;
+
+        colorized_html = cleaned_html.replace(/[$][$](.*)[$][$]/, "\\[" + colorized_latex + "\\]");
+
+        return {
+            html: cleaned_html,
+            math: math,
+            latex: latex,
+            colorized_latex: colorized_latex,
+            colorized_html: colorized_html
+        }
+    }
+
+    function renderMath() {
+        var mathEl = document.getElementById("math");
+        var html = editor.getValue();
+
+        var preamble = document.getElementById("preamble").innerText;
+
+        var parsed = parseMath(html, preamble);
+
+        console.log(parsed);
+
+        mathEl.innerHTML = parsed.colorized_html;
+
+        var latexEl = document.getElementById("latex");
+        latexEl.innerText = parsed.colorized_html;
+
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathEl]);
+
+        var mathkatex = document.getElementById("math-katex");
+        katex.default.renderToString(parsed.colorized_latex, mathkatex, {
+            displayMode: true,
+            macros: {
+                "\\plain": "\\color{black}",
+                "\\c1": "\\color{red}",
+                "\\c2": "\\color{yellow}",
+                "\\c3": "\\color{green}",
+                "\\c4": "\\color{blue}",
+                "\\c5": "\\color{orange}",
+                "\\c6": "\\color{purple}",
+            }
+        });
+
+        // renderMathInElement(mathEl);
+        console.log(html);
+    }
+
+    editor.on("change", renderMath);
+    editor.on("interaction", renderMath);
+    editor.on("load", renderMath);
+    </script>
+</body>
+
+</html>
